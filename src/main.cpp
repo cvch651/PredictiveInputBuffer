@@ -19,12 +19,18 @@ namespace {
     };
 
     // 1 tick = 1/240 s (4 ticks = 1 frame at 60 fps)
-    constexpr Stage stages[] = {
-        {2, 2, true},
-        {4, 4, true},
-        {8, 8, true},
-        {16, 8, true},
-        {0, 0, false}
+   constexpr Stage STAGES[8] = {
+    {2, 2},
+    {4, 4},
+    {8, 8},
+    {16, 8},
+    {20, 12},
+    {24, 16},
+    {32, 20},
+    {40, 24}
+};
+constexpr int OFF = 8;
+inline int g_stage = 0;
     };
 
     // Stage index 0..4, backed by the "stage" setting (1..5) so it works on
@@ -299,7 +305,7 @@ class $modify(PredictiveInputBufferKeyboard, CCKeyboardDispatcher) {
         double timestamp
     ) {
         if (key == enumKeyCodes::KEY_F6 && isKeyDown && !isKeyRepeat) {
-            int next = (currentStage() + 1) % 5;
+        int next = (currentStage() + 1) % 9;
             Mod::get()->setSettingValue<int64_t>("stage", next + 1);
         }
 
